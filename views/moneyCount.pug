@@ -1,0 +1,49 @@
+form#coin-count-form(method='post')
+  label(for='money-amount') Money amount:
+  input#money-amount(type='text' name='moneyAmount')
+  button#calculate-button Calculate
+
+div#coin-count-results
+  p#twenty-dollar-count Twenty dollar bills:
+  p#ten-dollar-count Ten dollar bills:
+  p#five-dollar-count Five dollar bills:
+  p#one-dollar-count One dollar bills:
+  p#twenty-five-cent-count Twenty-five cent coins:
+  p#ten-cent-count Ten cent coins:
+  p#five-cent-count Five cent coins:
+  p#one-cent-count One cent coins:
+
+script.
+  const form = document.querySelector('#coin-count-form');
+  const calculateButton = document.querySelector('#calculate-button');
+  const twentyDollarCount = document.querySelector('#twenty-dollar-count');
+  const tenDollarCount = document.querySelector('#ten-dollar-count');
+  const fiveDollarCount = document.querySelector('#five-dollar-count');
+  const oneDollarCount = document.querySelector('#one-dollar-count');
+  const twentyFiveCentCount = document.querySelector('#twenty-five-cent-count');
+  const tenCentCount = document.querySelector('#ten-cent-count');
+  const fiveCentCount = document.querySelector('#five-cent-count');
+  const oneCentCount = document.querySelector('#one-cent-count');
+
+  calculateButton.addEventListener('click', (event) => {
+    event.preventDefault();
+
+    // Send an AJAX request to the backend route to count the coins/bills
+    fetch('/count-coins', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ moneyAmount: document.querySelector('#money-amount').value })
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        // Update the DOM with the coin/bill counts returned by the server
+        twentyDollarCount.textContent = `Twenty dollar bills: ${data.twentyDollarCount}`;
+        tenDollarCount.textContent = `Ten dollar bills: ${data.tenDollarCount}`;
+        fiveDollarCount.textContent = `Five dollar bills: ${data.fiveDollarCount}`;
+        oneDollarCount.textContent = `One dollar bills: ${data.oneDollarCount}`;
+        twentyFiveCentCount.textContent = `Twenty-five cent coins: ${data.twentyFiveCentCount}`;
+        tenCentCount.textContent = `Ten cent coins: ${data.tenCentCount}`;
+        fiveCentCount.textContent = `Five cent coins: ${data.fiveCentCount}`;
+        oneCentCount.textContent = `One cent coins: ${data

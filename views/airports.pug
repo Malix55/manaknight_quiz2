@@ -1,0 +1,6 @@
+form(method='get', action='/airports')
+  input#search(type='text', name='search', placeholder='Enter airport name or code', autocomplete='off', oninput='this.form.submit()')
+  ul#results
+    each airport in airports
+      li
+        a(href='#')= String(airport.name + ' (' + airport.code + ')')

@@ -1,10 +1,8 @@
-body
-    .container
-      fieldset
-        form(action='/', method='post')
-          input.ghost-input(name='city', type='text', placeholder='Enter a City', required='')
-          input.ghost-button(type='submit', value='Get Weather')
-        if weather
-          p= weather
-        if error
-          p= error
+if condition == 'Sunny'
+  img(src='sun.png')
+else if condition == 'Rainy'
+  img(src='cloud.png')
+else if condition == 'Snowy'
+  img(src='snowflake.png')
+
+p The current temperature is #{temperature}°C.

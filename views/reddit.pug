@@ -1,0 +1,9 @@
+html
+  head
+    title Reddit Widget
+  body
+    h1 Reddit Widget
+    each post in posts
+      h2= post.data.title
+      p by #{post.data.author}
+      a(href=post.data.url)= post.data.url

@@ -6,6 +6,7 @@ const upload = require("../middleware/upload");
 const timeController = require("../controllers/time");
 const weatherController = require("../controllers/weather");
 const redditController = require("../controllers/reddit");
+const speakeasyController = require("../controllers/speakeasy");
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -30,5 +31,7 @@ router.get("/moneyCount", (req, res) => {
 router.post("/moneyCount", (req, res) => {
   res.render("moneyCount");
 });
+
+router.post("/speakeasy", speakeasyController);
 
 module.exports = router;

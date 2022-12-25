@@ -3,7 +3,7 @@ html
   head
     title 2FA Modal Popup
     style.
-      /* Style the modal overlay and modal content */
+
       .modal-overlay {
         position: fixed;
         top: 0;
@@ -25,16 +25,15 @@ html
         transform: translate(-50%, -50%);
       }
   body
-    // Modal Overlay
+
     .modal-overlay(class=(modalHidden ? 'hidden' : ''))
-      // Modal Content
+
       .modal-content
         h1 2FA Verification
         p Please enter the code from your authenticator app:
         form(method='post')
           input(type='text', name='code')
           button(type='submit') Submit
-    // Dashboard Content
     .dashboard
       h1 Welcome to the Dashboard!
       p Here is some content for the dashboard.

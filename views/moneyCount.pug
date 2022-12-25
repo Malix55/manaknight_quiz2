@@ -28,7 +28,7 @@ script.
   calculateButton.addEventListener('click', (event) => {
     event.preventDefault();
 
-    // Send an AJAX request to the backend route to count the coins/bills
+
     fetch('/moneyCount', {
       method: 'POST',
       headers: {
@@ -38,7 +38,7 @@ script.
     })
       .then((response) => response.json())
       .then((data) => {
-        // Update the DOM with the coin/bill counts returned by the server
+
         twentyDollarCount.textContent = `Twenty dollar bills: ${data.twentyDollarCount}`;
         tenDollarCount.textContent = `Ten dollar bills: ${data.tenDollarCount}`;
         fiveDollarCount.textContent = `Five dollar bills: ${data.fiveDollarCount}`;

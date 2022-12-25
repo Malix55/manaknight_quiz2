@@ -8,7 +8,7 @@ html
     form(method='get', action='/airports')
       input#search(type='text', name='search', placeholder='Enter airport name or code', autocomplete='off', oninput='fetchAirports(this.value)')
       div#dropdown.dropdown
-        // The dropdown list will be populated using JavaScript
+
         ul.dropdown-menu(aria-labelledby='search')
           li
             a No results found
@@ -20,9 +20,8 @@ html
               a No results found
 
 
-              // Use jQuery to make the AJAX call
+
 script.
-  // Function to make the AJAX call to the /airports route
   function fetchAirports(search) {
     if (search.length < 3) {
       return;
@@ -31,10 +30,9 @@ script.
     $.ajax({
       url: '/airports?search=' + encodeURIComponent(search),
       success: function(airports) {
-        // Clear the dropdown list
         $('#dropdown ul').empty();
 
-        // Populate the dropdown list with the results
+
         if (names.length > 0) {
           names.forEach(function(airport) {
             $('#dropdown ul').append('<li><a href="#">' + airport.name + '</a></li>');
@@ -50,17 +48,14 @@ script.
     });
   }
 
-  // Show the dropdown list when the input field is focused
   $('#search').focus(function() {
     $('#dropdown').addClass('show');
   });
 
-  // Hide the dropdown list when the input field is blurred
+
   $('#search').blur(function() {
     $('#dropdown').removeClass('show');
   });
-
-  // Update the value of the input field when an item in the dropdown list is clicked
   $('#dropdown ul').on('click', 'li', function() {
     $('#search').val($(this).text());
     $('#dropdown').removeClass('show');

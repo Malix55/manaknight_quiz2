@@ -6,7 +6,6 @@ const artic = async (req, res) => {
     const latitude = req.body.latitude;
     const longitude = req.body.longitude;
 
-    // Calculate the distance using the Haversine formula
     const start = { latitude: 66.5, longitude: 0 };
     const end = { latitude, longitude };
     const distance = haversine(start, end, { unit: "mile" });

@@ -13,7 +13,7 @@ const redis = require("redis");
 const client = redis.createClient();
 const upload = multer({ dest: "uploads/" });
 
-client.set("chatroom", JSON.stringify([]));
+// client.set("chatroom", JSON.stringify([]));
 
 /* GET home page. */
 router.get("/", function (req, res, next) {
@@ -61,49 +61,49 @@ router.get("/chat", (req, res) => {
   res.render("chat");
 });
 
-router.post("/send", async (req, res) => {
-  const message = req.body.message;
-  await client.get("chatroom", (err, chatroom) => {
-    chatroom = JSON.parse(chatroom);
-    chatroom.push(message);
-    client.set("chatroom", JSON.stringify(chatroom));
-  });
-  res.sendStatus(200);
-});
+// router.post("/send", async (req, res) => {
+//   const message = req.body.message;
+//   await client.get("chatroom", (err, chatroom) => {
+//     chatroom = JSON.parse(chatroom);
+//     chatroom.push(message);
+//     client.set("chatroom", JSON.stringify(chatroom));
+//   });
+//   res.sendStatus(200);
+// });
 
-router.get("/poll", (req, res) => {
-  const longpoll = (callback) => {
-    client.watch("chatroom", (err) => {
-      client.get("chatroom", (err, chatroom) => {
-        chatroom = JSON.parse(chatroom);
-        if (chatroom.length > 0) {
-          callback(chatroom);
-        } else {
-          client.on("message", (channel, message) => {
-            message = JSON.parse(message);
-            callback(message);
-          });
-        }
-      });
-    });
-  };
-  longpoll((messages) => {
-    res.send(messages);
-  });
-});
+// router.get("/poll", (req, res) => {
+//   const longpoll = (callback) => {
+//     client.watch("chatroom", (err) => {
+//       client.get("chatroom", (err, chatroom) => {
+//         chatroom = JSON.parse(chatroom);
+//         if (chatroom.length > 0) {
+//           callback(chatroom);
+//         } else {
+//           client.on("message", (channel, message) => {
+//             message = JSON.parse(message);
+//             callback(message);
+//           });
+//         }
+//       });
+//     });
+//   };
+//   longpoll((messages) => {
+//     res.send(messages);
+//   });
+// });
 
-router.get("/chat/all", async (req, res) => {
-  await client.get("chatroom", (err, chatroom) => {
-    chatroom = JSON.parse(chatroom);
-    res.send(chatroom);
-  });
-});
+// router.get("/chat/all", async (req, res) => {
+//   await client.get("chatroom", (err, chatroom) => {
+//     chatroom = JSON.parse(chatroom);
+//     res.send(chatroom);
+//   });
+// });
 
-router.post("/save", (req, res) => {
-  client.get("chatroom", (err, chatroom) => {
-    chatroom = JSON.parse(chatroom);
-    res.sendStatus(200);
-  });
-});
+// router.post("/save", (req, res) => {
+//   client.get("chatroom", (err, chatroom) => {
+//     chatroom = JSON.parse(chatroom);
+//     res.sendStatus(200);
+//   });
+// });
 
 module.exports = router;

@@ -29,12 +29,12 @@ script.
     event.preventDefault();
 
     // Send an AJAX request to the backend route to count the coins/bills
-    fetch('/count-coins', {
+    fetch('/moneyCount', {
       method: 'POST',
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
-      body: JSON.stringify({ moneyAmount: document.querySelector('#money-amount').value })
+      body: JSON.stringify({ moneyAmount: document.querySelector('#money-amount').value }),
     })
       .then((response) => response.json())
       .then((data) => {
@@ -46,4 +46,6 @@ script.
         twentyFiveCentCount.textContent = `Twenty-five cent coins: ${data.twentyFiveCentCount}`;
         tenCentCount.textContent = `Ten cent coins: ${data.tenCentCount}`;
         fiveCentCount.textContent = `Five cent coins: ${data.fiveCentCount}`;
-        oneCentCount.textContent = `One cent coins: ${data
+        oneCentCount.textContent = `One cent coins: ${data.oneCentCount}`;
+      });
+ 

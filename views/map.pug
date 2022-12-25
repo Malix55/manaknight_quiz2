@@ -1,0 +1,66 @@
+doctype html
+html
+  head
+    title Map widget example
+    link(rel='stylesheet', href='https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css')
+    script(src='/jquery.js')
+    script(src='/jquery-ui.js')
+    script(src='/openlayers.js')
+  body
+    .form-group
+      input#airport-input.form-control(type='text', placeholder='Enter airport name or code')
+    .card
+      .card-body
+        #map(style='height: 400px; width: 100%;')
+    script.
+      $(function() {
+        var availableAirports = [
+          "New York JFK International Airport",
+          "Los Angeles International Airport",
+          "Chicago O'Hare International Airport",
+          // Add more airports here
+        ];
+        $("#airport-input").autocomplete({
+          source: availableAirports
+        });
+      });
+
+      function getLatLng(airportName) {
+        // Replace SPACE_CHARACTER with a plus sign (+)
+        var encodedAirportName = encodeURIComponent(airportName).replace(/%20/g, "+");
+
+        // Make an HTTP request to the OpenStreetMap Nominatim API
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "https://nominatim.openstreetmap.org/search?q=" + encodedAirportName + "&format=json");
+        xhr.send();
+
+        xhr.onload = function() {
+          if (xhr.status == 200) {
+            // Parse the response JSON
+            var response = JSON.parse(xhr.response);
+
+            // Retrieve the first result (the most relevant one)
+            var firstResult = response[0];
+
+            // Return the latitude and longitude of the result
+            return {
+              lat: firstResult.lat,
+              lng: firstResult.lon
+            };
+          }
+        };
+      }
+
+      // Create a new map
+      var map = new ol.Map({
+        target: "map", // ID of the map container element
+        layers: [
+          new ol.layer.Tile({
+            source: new ol.source.OSM()
+          })
+        ],
+        view: new ol.View({
+          center: [0, 0], // Initial center of the map (will be updated with the chosen airport's lat and lng)
+          zoom: 2 // Initial zoom
+        )}
+      )

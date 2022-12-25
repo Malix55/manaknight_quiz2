@@ -11,9 +11,9 @@ const weather = async (req, res) => {
         return res.send({ error: err });
       }
 
-      const data = JSON.parse(body);
-      const temperature = data.current.temp_c;
-      const condition = data.current.condition.text;
+      const weatherData = JSON.parse(body);
+      const temperature = (weatherData.current.temp_f - 32) * (5 / 9);
+      const condition = weatherData.current.condition.text;
 
       res.render("weather", { temperature, condition });
     });

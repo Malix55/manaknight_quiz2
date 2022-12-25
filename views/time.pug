@@ -1,6 +1,28 @@
 //- template.pug
-div
-  span London: #{londonTime.toLocaleTimeString()}
-  span EST: #{estTime.toLocaleTimeString()}
-  span Nigeria: #{nigeriaTime.toLocaleTimeString()}
-  span Pakistan: #{pakistanTime.toLocaleTimeString()}
+doctype html
+html
+  head
+    link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css", integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65", crossorigin="anonymous")
+
+  body
+    .container
+      .row
+        .col
+          h1 Time
+      .row
+        .col-3
+          .card.text-center
+            .card-body
+              span London: #{londonTime.toLocaleTimeString()}
+        .col-3
+          .card.text-center
+            .card-body
+              span EST: #{estTime.toLocaleTimeString()}
+        .col-3
+          .card.text-center
+            .card-body
+              span Nigeria: #{nigeriaTime.toLocaleTimeString()}
+        .col-3
+          .card.text-center
+            .card-body
+              span Pakistan: #{pakistanTime.toLocaleTimeString()}

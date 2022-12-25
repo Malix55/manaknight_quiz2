@@ -5,26 +5,14 @@ const Image = db.images;
 
 const uploadFiles = async (req, res) => {
   try {
-    console.log(req.file);
-
-    if (req.file == undefined) {
-      return res.send(`You must select a file.`);
-    }
-
+    const image = req.file;
     Image.create({
-      type: req.file.mimetype,
-      name: req.file.originalname,
-      data: fs.readFileSync(
-        __basedir + "/resources/static/assets/uploads/" + req.file.filename
-      ),
-    }).then((image) => {
-      fs.writeFileSync(
-        __basedir + "/resources/static/assets/tmp/" + image.name,
-        image.data
-      );
-
-      return res.send(`File has been uploaded.`);
+      name: image.originalname,
+      data: image.buffer,
+    }).then(() => {
+      console.log("Image saved to database");
     });
+    res.redirect("/upload");
   } catch (error) {
     console.log(error);
     return res.send(`Error when trying upload images: ${error}`);
@@ -33,13 +21,11 @@ const uploadFiles = async (req, res) => {
 
 const showFiles = async (req, res) => {
   try {
-    Image.findOne({ order: [["id", "DESC"]] })
-      .then(function (result) {
-        res.render("upload", { imageUrl: result.imageUrl });
-      })
-      .catch(function (err) {
-        res.render("upload", { imageUrl: "" });
-      });
+    Image.findOne({
+      order: [["createdAt", "DESC"]],
+    }).then((latestImage) => {
+      res.render("upload", { latestImage });
+    });
   } catch (error) {
     console.log(error);
     return res.send(`Error when trying upload images: ${error}`);

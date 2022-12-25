@@ -2,21 +2,22 @@ const speakeasy = require("speakeasy");
 
 const speakEasy = async (req, res) => {
   try {
-    const secret = speakeasy.generateSecret({ length: 20 });
-    const qrCodeUrl = speakeasy.otpauthURL({
-      secret: secret.base32,
-      label: "MyApp",
-    });
-    const verified = speakeasy.verify({
-      secret: secret.base32,
+    // Get the 2FA code from the form submission
+    const code = req.body.code;
+
+    // Use speakeasy to verify the code
+    const verified = speakeasy.totp.verify({
+      secret: 12345678,
       encoding: "base32",
-      token: userInputToken,
+      token: code,
     });
 
     if (verified) {
-      //user verfied
+      // If the code is valid, render the dashboard
+      res.render("dashboard", { modalHidden: true });
     } else {
-      res.send("user is has no access");
+      // If the code is invalid, render the 2FA form again with an error message
+      res.render("2fa", { error: "Invalid code. Please try again." });
     }
   } catch (error) {
     console.log(error);

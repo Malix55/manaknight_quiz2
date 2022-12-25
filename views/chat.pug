@@ -1,0 +1,54 @@
+  body
+    h1 Chat Room
+    ul#messages
+      //- Iterate over the chatroom messages and display them in the list
+      each message in chatroom
+        li= message
+    form(action="/send", method="post")
+      input(type="text", name="message")
+      input(type="submit", value="Send")
+    button#save Save Chat
+
+  script.
+    const messagesList = document.querySelector('#messages');
+    const saveButton = document.querySelector('#save');
+
+    // Set up the long-polling connection
+    const poll = () => {
+      fetch('/poll')
+        .then((response) => response.json())
+        .then((messages) => {
+          // Update the chat UI with the new messages
+          messages.forEach((message) => {
+            const li = document.createElement('li');
+            li.innerText = message;
+            messagesList.appendChild(li);
+          });
+          // Poll again for new messages
+          poll();
+        });
+    };
+    poll();
+
+    // Handle message sending
+    const form = document.querySelector('form');
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const formData = new FormData(form);
+      const message = formData.get('message');
+      fetch('/send', {
+        method: 'POST',
+        body: JSON.stringify({ message }),
+        headers: { 'Content-Type': 'application/json' },
+      });
+      // Clear the input field
+      form.reset();
+    });
+
+    // Handle chat saving
+    saveButton.addEventListener('click', () => {
+      fetch('/save', { method: 'POST' })
+        .then(() => {
+          alert('Chat saved!');
+        });
+    });

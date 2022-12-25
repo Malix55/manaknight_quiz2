@@ -1,8 +1,15 @@
-if condition == 'Sunny'
-  img(src='sun.png')
-else if condition == 'Rainy'
-  img(src='cloud.png')
-else if condition == 'Snowy'
-  img(src='snowflake.png')
-
-p The current temperature is #{temperature}°C.
+doctype html
+html
+  head
+    title Weather Widget
+        link(rel="stylesheet", href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css", integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65", crossorigin="anonymous")
+  body(class='d-flex justify-content-center')
+    h1 Weather Widget
+    p(style='fontsize:20px') #{temperature}°C.
+    img(src='sun.jpg')
+    if condition == 'Sunny'
+      img(src='sun.jpg')
+    else if condition == 'Rainy'
+      img(src='cloud.jpg')
+    else if condition == 'Snowy'
+      img(src='snowflake.jpg')

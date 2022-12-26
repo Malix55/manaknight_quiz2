@@ -7,6 +7,7 @@ const weatherController = require("../controllers/weather");
 const redditController = require("../controllers/reddit");
 const speakeasyController = require("../controllers/speakeasy");
 const articController = require("../controllers/artic");
+const moneyController = require("../controllers/moneyCount");
 
 const multer = require("multer");
 const redis = require("redis");
@@ -38,9 +39,7 @@ router.get("/moneyCount", (req, res) => {
   res.render("moneyCount");
 });
 
-router.post("/moneyCount", (req, res) => {
-  res.render("moneyCount");
-});
+router.post("/calculate", moneyController);
 
 router.get("/map", (req, res) => {
   res.render("map");

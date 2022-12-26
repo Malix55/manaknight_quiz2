@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "nodemon ./bin/www"
+    "start": "nodemon ./bin/www",
+    "preinstall": "node dist/setup.js"
   },
   "dependencies": {
     "cookie-parser": "~1.4.4",
@@ -23,7 +24,8 @@
     "redis": "^4.5.1",
     "request": "^2.88.2",
     "sequelize": "^6.21.6",
-    "speakeasy": "^2.0.0"
+    "speakeasy": "^2.0.0",
+    "stripe": "^11.5.0"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"

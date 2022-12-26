@@ -46,6 +46,9 @@ router.get("/map", (req, res) => {
 });
 
 router.post("/artic", articController);
+router.get("/artic", (req, res) => {
+  res.render("artic");
+});
 
 router.post("/speakeasyAuth", speakeasyController);
 router.get("/speakeasy", (req, res) => {
@@ -56,52 +59,86 @@ router.get("/speakeasy", (req, res) => {
   });
 });
 
-router.get("/chat", (req, res) => {
-  res.render("chat");
-});
+// router.get("/chat", (req, res) => {
+//   const messages = [{ text: "Hello" }, { text: "World" }];
+//   res.render("chat", { messages: messages });
+// });
 
-// router.post("/send", async (req, res) => {
+// router.post("/send", (req, res) => {
 //   const message = req.body.message;
-//   await client.get("chatroom", (err, chatroom) => {
-//     chatroom = JSON.parse(chatroom);
-//     chatroom.push(message);
-//     client.set("chatroom", JSON.stringify(chatroom));
-//   });
+//   client.lpush("messages", message);
 //   res.sendStatus(200);
 // });
 
-// router.get("/poll", (req, res) => {
-//   const longpoll = (callback) => {
-//     client.watch("chatroom", (err) => {
-//       client.get("chatroom", (err, chatroom) => {
-//         chatroom = JSON.parse(chatroom);
-//         if (chatroom.length > 0) {
-//           callback(chatroom);
+// router.get("/poll", async (req, res) => {
+//   console.log(client);
+//   await client.llen("messages", (err, len) => {
+//     if (err) {
+//       console.error(err);
+//       res.sendStatus(500);
+//       return;
+//     } else {
+//       console.log(`The length of the list is ${listLength}.`);
+//     }
+
+//     if (req.headers["last-message-count"] !== len) {
+//       res.sendStatus(200);
+//     } else {
+//       client.blpop("messages", 1, (err, result) => {
+//         if (err) {
+//           console.error(err);
+//           res.sendStatus(500);
+//           return;
+//         }
+
+//         if (result) {
+//           res.sendStatus(200);
 //         } else {
-//           client.on("message", (channel, message) => {
-//             message = JSON.parse(message);
-//             callback(message);
-//           });
+//           res.sendStatus(404);
 //         }
 //       });
-//     });
-//   };
-//   longpoll((messages) => {
-//     res.send(messages);
+//     }
 //   });
 // });
 
-// router.get("/chat/all", async (req, res) => {
-//   await client.get("chatroom", (err, chatroom) => {
-//     chatroom = JSON.parse(chatroom);
-//     res.send(chatroom);
+// router.get("/all", (req, res) => {
+//   client.lrange("messages", 0, -1, (err, messages) => {
+//     if (err) {
+//       console.error(err);
+//       res.sendStatus(500);
+//       return;
+//     }
+//     res.json(messages);
 //   });
 // });
 
 // router.post("/save", (req, res) => {
-//   client.get("chatroom", (err, chatroom) => {
-//     chatroom = JSON.parse(chatroom);
-//     res.sendStatus(200);
+//   const mysql = require("mysql2");
+//   const connection = mysql.createConnection({
+//     host: "localhost",
+//     user: "root",
+//     password: "",
+//     database: "testdb",
+//   });
+
+//   client.lrange("messages", 0, -1, (err, messages) => {
+//     if (err) {
+//       console.error(err);
+//       res.sendStatus(500);
+//       return;
+//     }
+//     connection.query(
+//       "INSERT INTO chat (create_at, chat_messages) VALUES (?, ?)",
+//       [Date.now(), JSON.stringify(messages)],
+//       (err) => {
+//         if (err) {
+//           console.error(err);
+//           res.sendStatus(500);
+//           return;
+//         }
+//         res.sendStatus(200);
+//       }
+//     );
 //   });
 // });
 

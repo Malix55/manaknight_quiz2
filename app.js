@@ -8,6 +8,9 @@ const db = require("./models");
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
 
+const redis = require("redis");
+const client = redis.createClient();
+
 var app = express();
 
 // view engine setup
